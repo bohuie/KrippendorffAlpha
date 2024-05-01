@@ -1,0 +1,8 @@
+created_at,author,pr_author,pr_id,comment_body,code,team,rater
+2023-10-12 2:33,author1,author2,1,comment1,Suggesting,1,1
+2023-10-12 2:34,author1,author2,15,We would prefer to implement container image build separately in a new PR for #5.,directing,1,1
+2023-10-12 2:36,author1,author2,15,"Furthermore, I believe this Dockerfile is quite outdated and lacks essentials security measure (i.e. uid, telemetry disabled). Looking at it in #5.","explaining, updating",1,1
+2023-10-12 2:37,author1,author2,15,"For the meantime, would u mind removing any container configs (i.e. dockerfile, compose file, npm scripts) to keep this PR clean.",directing,1,1
+2023-10-12 2:39,author1,author2,15,Remove here.,directing,1,1
+2023-10-12 2:42,author1,author2,15,Remove here too.,directing,1,1
+2023-10-12 2:43,author1,author2,15,Remove this. See above.,directing,1,1

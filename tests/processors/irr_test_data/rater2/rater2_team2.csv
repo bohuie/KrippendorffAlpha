@@ -1,0 +1,9 @@
+created_at,author,pr_author,pr_id,comment_body,code,team,rater
+2023-11-06 20:39:04,author2,author1,2,comment2,Emoting,2,2
+2023-11-07 20:40:19,author2,author1,2,comment3,"Approving shallow, Emoting",2,2
+2023-09-30 20:39:04,author3,author4,2,Looks good ,approving shallow,2,2
+2023-09-30 20:44:47,author5,author4,2,"Added templates, looks good!",approving context,2,2
+2023-09-30 21:54:26,author4,author6,3,looks good to me!,approving shallow,2,2
+2023-09-30 21:56:11,author7,author6,3,All good,approving shallow,2,2
+2023-09-30 22:14:39,author4,author7,4,All good!,approving shallow,2,2
+2023-09-30 22:15:32,author6,author7,4,Please add the user stories and change the file format to a readable one.,Directing,2,2
