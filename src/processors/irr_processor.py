@@ -190,14 +190,12 @@ class IRRProcessor:
 if __name__ == "__main__":
     # Assuming the project handles only 2 raters
     project_root = Path(__file__).parent.parent.parent
-    rater1_folder = project_root / "data" / "csv" / "irr_first_pass" / "rater1"
-    rater2_folder = project_root / "data" / "csv" / "irr_first_pass" / "rater2"
-    all_labels_path = project_root / "data" / "csv" / "irr_first_pass" / "labels.txt"
+    rater1_folder = project_root / "data" / "rater1"
+    rater2_folder = project_root / "data" / "rater2"
+    all_labels_path = project_root / "data" / "labels.txt"
 
     _rater1_data = IRRProcessor.extract_rater_data(rater1_folder)
-    _rater2_data = IRRProcessor.extract_rater_data(
-        rater2_folder, RawDataFileConfig(labels_column_name="Code")
-    )
+    _rater2_data = IRRProcessor.extract_rater_data(rater2_folder)
     _available_labels = IRRProcessor.process_all_labels_file(all_labels_path)
 
     irr_processor = IRRProcessor(_available_labels)

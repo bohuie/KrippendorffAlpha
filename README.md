@@ -5,9 +5,9 @@
 
 ## Config recommendation
 To use the default configuration, you need to place your data as follows:
-- 1 file for all labels, name it `labels.txt` and place it under `data/csv/irr_first_pass/`
-- All the files for the first rater should be in the same folder, name it `rater1` and place it under `data/csv/irr_first_pass/`
-- All the files for the second rater should be in the same folder, name it `rater2` and place it under `data/csv/irr_first_pass/`
+- 1 file for all labels, name it `labels.txt` and place it under `data/`
+- All the files for the first rater should be in the same folder, name it `rater1` and place it under `data/`
+- All the files for the second rater should be in the same folder, name it `rater2` and place it under `data/`
 
 ## How to run
 1. Clone the repository
