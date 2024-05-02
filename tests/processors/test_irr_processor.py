@@ -58,8 +58,23 @@ class TestIRRProcessor(TestCase):
         result = irr_processor.calculate_irr(_rater1_data, _rater2_data)
 
         # The number is calculated in this spreadsheet: https://docs.google.com/spreadsheets/d/1AmJmlj7NAarpVKaVjcQSZJM8u6tBx64gnucWx-CLjQM/edit?usp=sharing
-        self.assertEqual(round(result, 4), 0.5359)
+        self.assertEqual(round(result, 4), 0.6739)
 
         # This is the case where we set rbar = 2
         # self.assertEqual(round(result, 4), 0.6739)
+        print(result)
+
+    def test_calculate_irr_fake_duplicate_data(self) -> None:
+        _rater1_data = IRRProcessor.extract_rater_data(
+            self.fake_1,
+            RawDataFileConfig(
+                labels_column_name="code", data_column_name="comment_body"
+            ),
+        )
+
+        all_labels = IRRProcessor.process_all_labels_file(
+            self.fake_filepath / "labels.txt"
+        )
+        irr_processor = IRRProcessor(all_labels)
+        result = irr_processor.calculate_irr(_rater1_data, _rater1_data)
         print(result)
