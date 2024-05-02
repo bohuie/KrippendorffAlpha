@@ -84,16 +84,17 @@ class IRRProcessor:
             if cleaned_data not in hash_map:
                 hash_map[cleaned_data] = {}
                 hash_map[cleaned_data][label_1] = []
-            hash_map[cleaned_data][label_2] = self._process_labels(
-                rater_data.labels
-            )
+            hash_map[cleaned_data][label_2] = self._process_labels(rater_data.labels)
 
         for data, users_labels in hash_map.items():
             rater_1_labels = sorted(users_labels.get(label_1, []))
             rater_2_labels = sorted(users_labels.get(label_2, []))
             # compare the labels to see if they are strictly equal
             if rater_1_labels != rater_2_labels:
-                print(f'{data}\nRater 1: {", ".join(rater_1_labels)}\nRater 2: {", ".join(rater_2_labels)}', end="\n----------------------------\n")
+                print(
+                    f'{data}\nRater 1: {", ".join(rater_1_labels)}\nRater 2: {", ".join(rater_2_labels)}',
+                    end="\n----------------------------\n",
+                )
 
         df = DataFrame(
             {}, index=np.arange(len(hash_map)), columns=self.available_labels
@@ -108,7 +109,7 @@ class IRRProcessor:
         for data, users_labels in hash_map.items():
             row_idx = df[df[self.config.data_column_name] == data].index[0]
             if len(users_labels[label_1]) == 0 or len(users_labels[label_2]) == 0:
-                print(data, end='\n--------MISSING DATA--------\n')
+                print(data, end="\n--------MISSING DATA--------\n")
 
             if len(users_labels[label_1]) > 0:
                 df.at[row_idx, "num_rater"] += 1
@@ -143,7 +144,15 @@ class IRRProcessor:
 
         n = len(agreement_table)
 
-        r_bar = sum([agreement_table.at[i, "num_rater"] for i in range(len(agreement_table))]) / n
+        r_bar = (
+            sum(
+                [
+                    agreement_table.at[i, "num_rater"]
+                    for i in range(len(agreement_table))
+                ]
+            )
+            / n
+        )
         # drop num_rater after calculating r_bar
         agreement_table.drop(columns=["num_rater"], inplace=True)
 
