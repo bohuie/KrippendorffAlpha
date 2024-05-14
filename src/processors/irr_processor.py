@@ -48,7 +48,7 @@ class IRRProcessor:
 
     @staticmethod
     def _process_labels(labels: str) -> List[str]:
-        return [_label.strip() for _label in labels.lower().split(", ")]
+        return [_label.strip() for _label in labels.lower().split(",")]
 
     def _get_agreement_table(
         self, rater1_data: RaterData, rater2_data: RaterData
@@ -86,15 +86,13 @@ class IRRProcessor:
                 hash_map[cleaned_data][label_1] = []
             hash_map[cleaned_data][label_2] = self._process_labels(rater_data.labels)
 
+        different_data = []
         for data, users_labels in hash_map.items():
             rater_1_labels = sorted(users_labels.get(label_1, []))
             rater_2_labels = sorted(users_labels.get(label_2, []))
             # compare the labels to see if they are strictly equal
-            if rater_1_labels != rater_2_labels:
-                print(
-                    f'{data}\nRater 1: {", ".join(rater_1_labels)}\nRater 2: {", ".join(rater_2_labels)}',
-                    end="\n----------------------------\n",
-                )
+            if rater_1_labels != rater_2_labels and rater_1_labels != [] and rater_2_labels != []:
+                different_data.append((data, rater_1_labels, rater_2_labels))
 
         df = DataFrame(
             {}, index=np.arange(len(hash_map)), columns=self.available_labels
@@ -106,10 +104,13 @@ class IRRProcessor:
 
         df["num_rater"] = 0
 
+        missing_data = []
         for data, users_labels in hash_map.items():
             row_idx = df[df[self.config.data_column_name] == data].index[0]
             if len(users_labels[label_1]) == 0 or len(users_labels[label_2]) == 0:
-                print(data, end="\n--------MISSING DATA--------\n")
+                # print(data, end="\n--------MISSING DATA--------\n")
+                missing_data.append(data)
+                continue
 
             if len(users_labels[label_1]) > 0:
                 df.at[row_idx, "num_rater"] += 1
@@ -120,6 +121,15 @@ class IRRProcessor:
                 df.at[row_idx, label] += 1
             for label in users_labels[label_2]:
                 df.at[row_idx, label] += 1
+
+        with open('missing_data.txt', 'w') as f:
+            for data in missing_data:
+                f.write(f"{data}\n--------MISSING DATA--------\n")
+
+        with open('different_data.txt', 'w') as f:
+            for data, r1, r2 in different_data:
+                data = data.split('\n---CONCAT---\n')[-1]
+                f.write(f"{data}\nRater 1: {', '.join(r1)}\nRater 2: {', '.join(r2)}\n----------DISAGREE DATA----------\n")
 
         return df
 
@@ -168,7 +178,10 @@ class IRRProcessor:
                 # TODO: Expand rbar_ik to factor in w_kl for more than just "nominal" weight function
                 rbar_ik = agreement_table[label].loc[agreement_table.index[i]]
 
-                p_aik = (r_ik * (rbar_ik - 1)) / (r_bar * (r_i - 1))
+                if r_i == 1:
+                    p_aik = 0
+                else:
+                    p_aik = (r_ik * (rbar_ik - 1)) / (r_bar * (r_i - 1))
                 p_primea += p_aik
         p_primea /= n
         p_a = (p_primea * (1 - 1 / (n * r_bar))) + (1 / (n * r_bar))
@@ -203,8 +216,8 @@ if __name__ == "__main__":
     rater2_folder = project_root / "data" / "rater2"
     all_labels_path = project_root / "data" / "labels.txt"
 
-    _rater1_data = IRRProcessor.extract_rater_data(rater1_folder)
-    _rater2_data = IRRProcessor.extract_rater_data(rater2_folder)
+    _rater1_data = IRRProcessor.extract_rater_data(rater1_folder, RawDataFileConfig(labels_column_name='code', data_column_name='comment_body'))
+    _rater2_data = IRRProcessor.extract_rater_data(rater2_folder, RawDataFileConfig(labels_column_name='code', data_column_name='comment_body'))
     _available_labels = IRRProcessor.process_all_labels_file(all_labels_path)
 
     irr_processor = IRRProcessor(_available_labels)
