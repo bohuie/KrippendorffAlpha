@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 
+pd.set_option('future.no_silent_downcasting', True)
 
 @dataclass
 class RaterDataRow:

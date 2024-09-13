@@ -3,3 +3,8 @@ venv/
 .DS_Store
 data/
 script/
+__pycache__/
+
+# Information about the data
+different_data.txt
+missing_data.txt
