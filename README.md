@@ -28,8 +28,13 @@ pip install -r requirements.txt
 ```bash
 python -m src.processor.irr_processor
 ```
+or
+```bash
+python src/processor/irr_processor.py
+```
 
 ## Assumptions
 - There are only 2 raters
 - All the data points (questions) are unique
 - The data points between the 2 raters are identical
+- The input CSVs have columns called `comment_body` for the data text to code and another column called `code` for the code label(s) of that text
