@@ -23,6 +23,10 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+or
+```bash
+pip3 install -r requirements.txt
+```
 5. Config the application in the file `src/processors/irr_processor.py`
 - make sure the labels are stored in `data/labels.txt'
 - make sure rater 1's files are stored in `data/rater1/*.csv
